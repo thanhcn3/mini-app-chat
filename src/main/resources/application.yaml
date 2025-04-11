@@ -1,0 +1,43 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres:5432/MiniApp  # Use service name 'postgres'
+    username: thanhcn3
+    password: 12345
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  data:
+    mongodb:
+      uri: mongodb://thanhcn3:12345@mongodb:27017/MiniApp  # Use service name 'mongodb'
+      database: MiniApp
+
+
+    redis:
+      host: redis  # Use service name 'redis'
+      port: 6379
+      timeout: 60000
+    
+jwt:
+  secret: 826d1d3281c52067aa518d9a08b8fbf239a8e2a15f3c21d03a734e952648bcf5
+  expiration: 36000000  # 10 hours in milliseconds
+
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    com.example.user_service: DEBUG
