@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class OtpKafka {
-
 
     private final EmailService emailService;
     private final UserRepository userRepository;
@@ -42,12 +42,12 @@ public class OtpKafka {
         }
     }
 
-    @org.springframework.kafka.annotation.KafkaListener(topics = "otp-topic", groupId = "otp-service")
+
+    @KafkaListener(topics = "otp-topic", groupId = "otp-service")
     public void listen(String messageJson) throws JsonProcessingException {
         log.info("Received message: {}", messageJson);
         ObjectMapper objectMapper = new ObjectMapper();
         OtpMessage otpMessage = objectMapper.readValue(messageJson, OtpMessage.class);
-
         emailService.sendOtpEmail(otpMessage.getEmail());
     }
 

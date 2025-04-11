@@ -61,7 +61,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             log.error("JWT token validation error: {}", e.getMessage());
-            // Do not throw exception, just continue with the filter chain
             writeErrorResponse(response, ErrorCode.UNAUTHENTICATED, request.getRequestURI());
             return;
         }

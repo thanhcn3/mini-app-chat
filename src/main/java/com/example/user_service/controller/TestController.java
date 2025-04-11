@@ -16,7 +16,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class TestController {
     
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, String> tokenRedisTemplate;
 
     @GetMapping("/redis")
     public ResponseEntity<String> testRedis() {
@@ -25,13 +25,13 @@ public class TestController {
             String value = "Hello Redis!";
             
             // Set value
-            redisTemplate.opsForValue().set(key, value);
+            tokenRedisTemplate.opsForValue().set(key, value);
             
             // Get value
-            String retrieved = redisTemplate.opsForValue().get(key);
+            String retrieved = tokenRedisTemplate.opsForValue().get(key);
             
             // Clean up
-            redisTemplate.delete(key);
+            tokenRedisTemplate.delete(key);
             
             return ResponseEntity.ok("Redis test successful! Retrieved value: " + retrieved);
         } catch (Exception e) {
@@ -46,11 +46,11 @@ public class TestController {
             Map<String, String> allValues = new HashMap<>();
             
             // Get all keys
-            Set<String> keys = redisTemplate.keys("*");
+            Set<String> keys = tokenRedisTemplate.keys("*");
             
             if (keys != null) {
                 for (String key : keys) {
-                    String value = redisTemplate.opsForValue().get(key);
+                    String value = tokenRedisTemplate.opsForValue().get(key);
                     allValues.put(key, value);
                 }
             }
@@ -67,11 +67,11 @@ public class TestController {
             Map<String, String> jwtTokens = new HashMap<>();
             
             // Get all JWT keys (using the prefix "JWT:")
-            Set<String> keys = redisTemplate.keys("JWT:*");
+            Set<String> keys = tokenRedisTemplate.keys("JWT:*");
             
             if (keys != null) {
                 for (String key : keys) {
-                    String value = redisTemplate.opsForValue().get(key);
+                    String value = tokenRedisTemplate.opsForValue().get(key);
                     jwtTokens.put(key, value);
                 }
             }
@@ -85,9 +85,9 @@ public class TestController {
     @GetMapping("/redis/clear")
     public ResponseEntity<String> clearAllRedis() {
         try {
-            Set<String> keys = redisTemplate.keys("*");
+            Set<String> keys = tokenRedisTemplate.keys("*");
             if (keys != null && !keys.isEmpty()) {
-                redisTemplate.delete(keys);
+                tokenRedisTemplate.delete(keys);
             }
             return ResponseEntity.ok("All Redis keys have been cleared");
         } catch (Exception e) {

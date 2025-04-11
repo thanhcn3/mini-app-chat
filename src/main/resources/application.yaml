@@ -57,7 +57,7 @@ spring:
 
 
 jwt:
-  secret: 826d1d3281c52067aa518d9a08b8fbf239a8e2a15f3c21d03a734e952648bcf5
+  secret: 5eba11a05584e350473b6f4202a6c27c25391bf45e67b0ed03c14cb983523a81223ff1d67e31ade3de4e5ea4c5d01651a115e6c6dd6aa28dba227b647d1753be
   expiration: 36000000  # 10 hours in milliseconds
 
 server:
@@ -70,5 +70,3 @@ logging:
   level:
     org.springframework.security: DEBUG
     com.example.user_service: DEBUG
-security:
-  secret-key=my-super-secret: 5eba11a05584e350473b6f4202a6c27c25391bf45e67b0ed03c14cb983523a81223ff1d67e31ade3de4e5ea4c5d01651a115e6c6dd6aa28dba227b647d1753be

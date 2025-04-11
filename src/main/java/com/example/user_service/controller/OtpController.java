@@ -31,6 +31,7 @@ public class OtpController {
         }
         return null;
     }
+
     @PostMapping("/check-otp")
     public ApiResponse<Boolean> checkOtp(@RequestBody OtpMessage requset) {
       try{
@@ -38,7 +39,6 @@ public class OtpController {
       }catch (Exception e){
           throw new GlobalExceptionHandler.BusinessException("Mail not verified");
       }
-
     }
 
 

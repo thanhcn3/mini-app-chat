@@ -32,8 +32,8 @@ public class AuthServiceImpl implements AuthService {
             if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
                 throw new AppException(ErrorCode.USERAPASS_NOT_EXISTED);
             }
-            String accessToken = jwtUtil.generateToken(user);
-            String refreshToken = jwtUtil.generateRefreshToken(String.valueOf(user.getId()));
+            String accessToken = jwtUtil.generateTokenAccess(user);
+            String refreshToken = jwtUtil.generateRefreshToken(String.valueOf(user.getId()), request.getMacAddress());
             return new TokenResponse(
                     accessToken,
                     3600000, // 1 hour in milliseconds

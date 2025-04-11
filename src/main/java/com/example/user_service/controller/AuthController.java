@@ -43,17 +43,19 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/refresh")
-    public ApiResponse<TokenResponse> refreshToken(@RequestHeader("Refresh-Token") String refreshToken) {
+    @PostMapping(value = "/refresh" ,consumes = "application/json")
+    public ApiResponse<TokenResponse> refreshToken(
+            @RequestHeader("Refresh-Token") String refreshToken,
+            @RequestBody LoginRequest request) {
         try {
-            TokenResponse tokens = jwtUtils.refreshToken(refreshToken);
+            TokenResponse tokens = jwtUtils.genTokenByRefreshToken(refreshToken, request.getMacAddress());
             return ApiResponse.success(tokens);
         } catch (Exception e) {
             throw new GlobalExceptionHandler.BusinessException(e.getMessage());
         }
     }
 
-    @PostMapping("/logout")
+    @PostMapping(value = "/logout"  ,consumes = "application/json")
     public ApiResponse<Void> logout(
             @RequestHeader("Authorization") String authHeader,
             @RequestHeader(value = "Refresh-Token", required = false) String refreshToken
