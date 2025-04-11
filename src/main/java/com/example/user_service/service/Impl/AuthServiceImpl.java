@@ -2,6 +2,8 @@ package com.example.user_service.service.Impl;
 
 import com.example.user_service.config.security.JwtUtils;
 import com.example.user_service.enity.User;
+import com.example.user_service.exception.AppException;
+import com.example.user_service.exception.ErrorCode;
 import com.example.user_service.model.User.Login.LoginRequest;
 import com.example.user_service.model.User.Register.Request;
 import com.example.user_service.model.auth.TokenResponse;
@@ -28,14 +30,14 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByUsername(request.getUsername());
         if (user != null) {
             if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-                throw new RuntimeException("Invalid Password");
+                throw new AppException(ErrorCode.USERAPASS_NOT_EXISTED);
             }
             String accessToken = jwtUtil.generateToken(user);
             String refreshToken = jwtUtil.generateRefreshToken(String.valueOf(user.getId()));
             return new TokenResponse(
                     accessToken,
-                    refreshToken,
                     3600000, // 1 hour in milliseconds
+                    refreshToken,
                     604800000 // 7 days in milliseconds
             );
         } else {
@@ -46,7 +48,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String register(Request request) {
         if(userRepository.findByUsername(request.getUsername()) != null){
-            throw new RuntimeException("Username already exists");
+            throw new AppException(ErrorCode.USER_EXISTED);
         }
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 

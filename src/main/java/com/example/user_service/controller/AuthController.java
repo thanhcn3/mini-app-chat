@@ -2,6 +2,8 @@ package com.example.user_service.controller;
 
 
 import com.example.user_service.config.security.JwtUtils;
+import com.example.user_service.exception.AppException;
+import com.example.user_service.exception.GlobalExceptionHandler;
 import com.example.user_service.model.ApiResponse;
 import com.example.user_service.model.User.Login.LoginRequest;
 import com.example.user_service.model.User.Register.Request;
@@ -10,6 +12,7 @@ import com.example.user_service.service.AuthService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,9 +27,9 @@ public class AuthController {
     public ApiResponse<TokenResponse> login(@RequestBody LoginRequest request) {
         try {
             TokenResponse tokens = authService.login(request);
-            return new ApiResponse<>("Success", "Login successful", tokens);
+            return ApiResponse.success(tokens);
         } catch (Exception e) {
-            return new ApiResponse<>("Error", e.getMessage(), null);
+            throw new GlobalExceptionHandler.BusinessException(e.getMessage());
         }
     }
 
@@ -34,9 +37,9 @@ public class AuthController {
     public ApiResponse<String> register(@RequestBody Request request) {
         try {
             String tokens = authService.register(request);
-            return new ApiResponse<>("Success", "Register successful", tokens);
+            return ApiResponse.success(tokens);
         } catch (Exception e) {
-            return new ApiResponse<>("Error", e.getMessage(), null);
+            throw new GlobalExceptionHandler.BusinessException(e.getMessage());
         }
     }
 
@@ -44,9 +47,9 @@ public class AuthController {
     public ApiResponse<TokenResponse> refreshToken(@RequestHeader("Refresh-Token") String refreshToken) {
         try {
             TokenResponse tokens = jwtUtils.refreshToken(refreshToken);
-            return new ApiResponse<>("Success", "Token refreshed successfully", tokens);
+            return ApiResponse.success(tokens);
         } catch (Exception e) {
-            return new ApiResponse<>("Error", e.getMessage(), null);
+            throw new GlobalExceptionHandler.BusinessException(e.getMessage());
         }
     }
 
@@ -58,9 +61,9 @@ public class AuthController {
         try {
             String accessToken = authHeader.substring(7);
             jwtUtils.invalidateTokens(accessToken, refreshToken);
-            return new ApiResponse<>("Success", "Logged out successfully", null);
+            return ApiResponse.success(null);
         } catch (Exception e) {
-            return new ApiResponse<>("Error", e.getMessage(), null);
+            throw new GlobalExceptionHandler.BusinessException(e.getMessage());
         }
     }
 
@@ -73,9 +76,9 @@ public class AuthController {
             String userId = jwtUtils.extractUserId(token);
             String role = jwtUtils.extractUserRole(token);
             String message = "User ID: " + userId + ", Role: " + role;
-            return new ApiResponse<>("Success", "Successfully retrieved user ID", message);
+            return ApiResponse.success(message);
         } catch (Exception e) {
-            return new ApiResponse<>("Error", e.getMessage(), null);
+            throw new GlobalExceptionHandler.BusinessException(e.getMessage());
         }
     }
 }

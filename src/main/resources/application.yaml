@@ -1,4 +1,32 @@
 spring:
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    consumer:
+      group-id: otp-service
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: cainhatthanhdemofis@gmail.com
+    password: ejdzjnfjmtrwppcu
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+          ssl:
+            enable: true
+
+
+
   datasource:
     url: jdbc:postgresql://postgres:5432/MiniApp  # Use service name 'postgres'
     username: thanhcn3
@@ -26,7 +54,8 @@ spring:
       host: redis  # Use service name 'redis'
       port: 6379
       timeout: 60000
-    
+
+
 jwt:
   secret: 826d1d3281c52067aa518d9a08b8fbf239a8e2a15f3c21d03a734e952648bcf5
   expiration: 36000000  # 10 hours in milliseconds
@@ -41,3 +70,5 @@ logging:
   level:
     org.springframework.security: DEBUG
     com.example.user_service: DEBUG
+security:
+  secret-key=my-super-secret: 5eba11a05584e350473b6f4202a6c27c25391bf45e67b0ed03c14cb983523a81223ff1d67e31ade3de4e5ea4c5d01651a115e6c6dd6aa28dba227b647d1753be

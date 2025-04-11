@@ -1,5 +1,7 @@
 package com.example.user_service.config.security;
 
+import com.example.user_service.exception.ErrorCode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +18,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -51,13 +56,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     }
                 } catch (Exception e) {
                     log.error("Could not set user authentication: {}", e.getMessage());
+                    writeErrorResponse(response, ErrorCode.UNAUTHORIZED, request.getRequestURI());
                 }
             }
         } catch (Exception e) {
             log.error("JWT token validation error: {}", e.getMessage());
             // Do not throw exception, just continue with the filter chain
+            writeErrorResponse(response, ErrorCode.UNAUTHENTICATED, request.getRequestURI());
+            return;
         }
 
         filterChain.doFilter(request, response);
+    }
+    private void writeErrorResponse(HttpServletResponse response, ErrorCode errorCode, String path) throws IOException {
+        response.setContentType("application/json");
+        response.setStatus(errorCode.getStatusCode().value());
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("message", errorCode.getMessage());
+        body.put("timestamp", LocalDateTime.now().toString());
+
+        ObjectMapper mapper = new ObjectMapper();
+        response.getWriter().write(mapper.writeValueAsString(body));
     }
 }

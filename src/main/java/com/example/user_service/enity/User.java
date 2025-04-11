@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.security.Timestamp;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +28,12 @@ public class User implements UserDetails {
     private String address;
     private String role;
     private String status;
+    private String gender;
+    private String avatar;
+    private String background;
+    private String description;
+    private Timestamp birthday;
+    private Timestamp createdAt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -13,6 +13,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -27,16 +28,19 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtUtils {
-    private UserRepository userRepository;
-    
+
+
+
+    private final UserRepository userRepository;
     private final RedisTemplate<String, String> redisTemplate;
     private static final String rawSecretKey = "5eba11a05584e350473b6f4202a6c27c25391bf45e67b0ed03c14cb983523a81223ff1d67e31ade3de4e5ea4c5d01651a115e6c6dd6aa28dba227b647d1753be";
     private static final Key SIGNING_KEY = Keys.hmacShaKeyFor(rawSecretKey.getBytes(StandardCharsets.UTF_8));
     
-    private static final String REDIS_JWT_PREFIX = "JWT:";
-    private static final String REDIS_REFRESH_PREFIX = "REFRESH:";
-    private static final long JWT_EXPIRATION = 1 * 60 * 60 * 1000; // 1 hour
+    private static final String REDIS_JWT_PREFIX = "accessToken:";
+    private static final String REDIS_REFRESH_PREFIX = "refreshToken:";
+    private static final long JWT_EXPIRATION = 2 * 24 * 60 * 60 * 1000; // 2 days
     private static final long REFRESH_EXPIRATION = 5 * 24 * 60 * 60 * 1000; // 5 days
+
 
     public String generateToken(User user) {
         return generateToken(user, JWT_EXPIRATION);

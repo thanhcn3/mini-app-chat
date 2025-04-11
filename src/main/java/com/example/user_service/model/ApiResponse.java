@@ -1,9 +1,12 @@
 package com.example.user_service.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
+@Builder
 @AllArgsConstructor
 public class ApiResponse<T> {
     private String code;
@@ -16,6 +19,14 @@ public class ApiResponse<T> {
         this.message = message;
         this.data = data;
         this.timestamp = LocalDateTime.now();
+    }
+
+    public static <T> ApiResponse<T> success(T data) {
+        return new ApiResponse<>("000", "Success", data, LocalDateTime.now());
+    }
+
+    public static <T> ApiResponse<T> error(String message) {
+        return new ApiResponse<>("1", message, null, LocalDateTime.now());
     }
 
     public ApiResponse() {

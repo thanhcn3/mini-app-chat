@@ -16,7 +16,7 @@ services:
 
   mongodb:
     image: mongo:6
-    container_name: mini_app_mongodb  # Đổi tên container
+    container_name: mini_app_mongodb
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: thanhcn3
@@ -28,14 +28,37 @@ services:
 
   redis:
     image: redis:7
-    container_name: mini_app_redis  # Đổi tên container
+    container_name: mini_app_redis
     restart: always
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
 
+  kafka:
+    image: bitnami/kafka:latest
+    environment:
+      KAFKA_CFG_PROCESS_ROLES: broker,controller
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_CFG_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CFG_LISTENER_NAME_INTERNAL: CONTROLLER
+      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
+      KAFKA_KRAFT_CLUSTER_ID: L5+YvX25k2F7WYz5bz1xyw==
+      KAFKA_CFG_NODE_ID: 1
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+    ports:
+      - "9092:9092" # Client port
+      - "9093:9093" # Internal controller port
+    networks:
+      - kafka-net
+
 volumes:
   postgres_data:
   mongo_data:
   redis_data:
+
+networks:
+  kafka-net:
+    driver: bridge

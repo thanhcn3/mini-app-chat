@@ -3,6 +3,8 @@ package com.example.user_service.exception;
 
 import com.example.user_service.model.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.expression.AccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,10 +23,8 @@ public class GlobalExceptionHandler {
     ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException exception) {
         log.error("Exception: ", exception);
         ApiResponse apiResponse = new ApiResponse();
-
         apiResponse.setCode(String.valueOf(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode()));
         apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
-
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
@@ -32,11 +32,31 @@ public class GlobalExceptionHandler {
     ResponseEntity<ApiResponse> handlingAppException(AppException exception) {
         ErrorCode errorCode = exception.getErrorCode();
         ApiResponse apiResponse = new ApiResponse();
-
         apiResponse.setCode(String.valueOf(errorCode.getCode()));
         apiResponse.setMessage(errorCode.getMessage());
-
         return ResponseEntity.status(errorCode.getStatusCode()).body(apiResponse);
     }
+
+    @ExceptionHandler(value = AccessException.class)
+    ResponseEntity<ApiResponse> handlingAccessException(AccessException exception) {
+        ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
+        ApiResponse response = new ApiResponse();
+        response.setCode(String.valueOf(errorCode.getCode()));
+        response.setMessage(errorCode.getMessage());
+        return ResponseEntity.status(errorCode.getStatusCode()).body(response);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ApiResponse<Object>> handleException(Exception ex) {
+        ApiResponse<Object> errorResponse = ApiResponse.error(ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+//Custom
+    public static class BusinessException extends RuntimeException {
+        public BusinessException(String message) {
+            super(message);
+        }
+    }
+
 
 }
