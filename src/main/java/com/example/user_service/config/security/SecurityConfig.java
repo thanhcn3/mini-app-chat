@@ -1,5 +1,6 @@
 package com.example.user_service.config.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,15 +14,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtUtils jwtUtils;
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailsServiceImpl userDetailsService;
 
-    public SecurityConfig(JwtUtils jwtUtils, UserDetailsService userDetailsService) {
-        this.jwtUtils = jwtUtils;
-        this.userDetailsService = userDetailsService;
-    }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -30,10 +29,10 @@ public class SecurityConfig {
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/register", "/api/auth/**", "/api/public/**").permitAll()
+                .requestMatchers("/login", "/register","/refresh").permitAll()
                 .anyRequest().authenticated()
             )
-            .addFilterBefore(new JwtAuthenticationFilter(jwtUtils, userDetailsService), 
+            .addFilterBefore(new JwtAuthenticationFilter(jwtUtils, userDetailsService),
                            UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

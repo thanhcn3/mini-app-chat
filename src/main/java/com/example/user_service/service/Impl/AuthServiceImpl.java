@@ -30,8 +30,8 @@ public class AuthServiceImpl implements AuthService {
             if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
                 throw new RuntimeException("Invalid Password");
             }
-            String accessToken = jwtUtil.generateToken(user.getUsername());
-            String refreshToken = jwtUtil.generateRefreshToken(user.getUsername());
+            String accessToken = jwtUtil.generateToken(user);
+            String refreshToken = jwtUtil.generateRefreshToken(String.valueOf(user.getId()));
             return new TokenResponse(
                     accessToken,
                     refreshToken,

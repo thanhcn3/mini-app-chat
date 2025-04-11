@@ -20,7 +20,6 @@ public class AuthController {
      JwtUtils jwtUtils;
      AuthService authService;
 
-
     @PostMapping(value = "/login", consumes = "application/json")
     public ApiResponse<TokenResponse> login(@RequestBody LoginRequest request) {
         try {
@@ -57,9 +56,24 @@ public class AuthController {
             @RequestHeader(value = "Refresh-Token", required = false) String refreshToken
     ) {
         try {
-            String accessToken = authHeader.substring(7); // Remove "Bearer "
+            String accessToken = authHeader.substring(7);
             jwtUtils.invalidateTokens(accessToken, refreshToken);
             return new ApiResponse<>("Success", "Logged out successfully", null);
+        } catch (Exception e) {
+            return new ApiResponse<>("Error", e.getMessage(), null);
+        }
+    }
+
+    @GetMapping("/getId")
+    public ApiResponse<String> getId(
+            @RequestHeader("Authorization") String authHeader
+    ) {
+        try {
+            String token = authHeader.substring(7).trim();
+            String userId = jwtUtils.extractUserId(token);
+            String role = jwtUtils.extractUserRole(token);
+            String message = "User ID: " + userId + ", Role: " + role;
+            return new ApiResponse<>("Success", "Successfully retrieved user ID", message);
         } catch (Exception e) {
             return new ApiResponse<>("Error", e.getMessage(), null);
         }
