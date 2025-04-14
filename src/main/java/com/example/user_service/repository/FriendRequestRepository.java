@@ -21,7 +21,8 @@ public interface FriendRequestRepository extends JpaRepository<FriendRequest, UU
             "FROM FriendRequest fr" +
             " JOIN User u ON fr.receiver.id = u.id" +
             " WHERE fr.receiver.id = ?1 " +
-            "AND fr.status = 'PENDING'"
+            "AND fr.status = 'PENDING'" +
+            " GROUP BY fr.id, u.id, u.name, u.avatar"
             )
     List<SendFriendResponse> findByReceiverIdAndStatus(UUID receiverId);
 
@@ -29,7 +30,8 @@ public interface FriendRequestRepository extends JpaRepository<FriendRequest, UU
             "FROM FriendRequest fr" +
             " JOIN User u ON fr.sender.id = u.id" +
             " WHERE fr.sender.id = ?1 " +
-            "AND fr.status = 'PENDING'"
+            "AND fr.status = 'PENDING'" +
+            "GROUP BY fr.id, u.id, u.name, u.avatar"
     )
     List<SendFriendResponse> findSentRequests(UUID senderId);
 
