@@ -73,7 +73,6 @@ public class JwtUtils {
                 .setExpiration(expiryDate)
                 .signWith(SIGNING_KEY, SignatureAlgorithm.HS256)
                 .compact();
-
     }
 
     public String generateTokenRefresh(String userId, String macAddress) {
@@ -118,7 +117,6 @@ public class JwtUtils {
         if (token == null || token.isEmpty()) {
             throw new IllegalArgumentException("JWT token cannot be null or empty");
         }
-
         return Jwts.parserBuilder()
                 .setSigningKey(SIGNING_KEY)
                 .build()
@@ -158,11 +156,10 @@ public class JwtUtils {
     }
 
     public String extractUserRole(String token) {
-        String accessToken = token.substring(7).trim();
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(SIGNING_KEY)
                 .build()
-                .parseClaimsJws(accessToken)
+                .parseClaimsJws(token)
                 .getBody();
         return claims.get("role", String.class);
     }

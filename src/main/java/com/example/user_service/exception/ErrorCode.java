@@ -17,7 +17,7 @@ public enum ErrorCode {
     USERNAME_IS_MISSING(1010, "Please enter username", HttpStatus.BAD_REQUEST),
     USER_NOT_EXISTED(1011, "User not existed", HttpStatus.BAD_REQUEST),
     VERIFY_MAIL(1012, "VERIFY mail to continue", HttpStatus.BAD_REQUEST),
-    USERAPASS_NOT_EXISTED(1012, "Username or Password not existed", HttpStatus.BAD_REQUEST),
+    PASS_NOT_EXISTED(1012, "Password not existed", HttpStatus.BAD_REQUEST),
     VOUCHERNAME_EXISTED(1013, "Voucher name existed, please choose another one", HttpStatus.BAD_REQUEST),
 
 

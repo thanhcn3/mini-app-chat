@@ -1,6 +1,7 @@
 spring:
   kafka:
-    bootstrap-servers: 127.0.0.1:9092
+    bootstrap:
+      servers=kafka:9092
     consumer:
       group-id: otp-service
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
