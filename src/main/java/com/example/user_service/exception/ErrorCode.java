@@ -18,7 +18,10 @@ public enum ErrorCode {
     USER_NOT_EXISTED(1011, "User not existed", HttpStatus.BAD_REQUEST),
     VERIFY_MAIL(1012, "VERIFY mail to continue", HttpStatus.BAD_REQUEST),
     PASS_NOT_EXISTED(1012, "Password not existed", HttpStatus.BAD_REQUEST),
+    FRIEND_REQUEST_EXISTED(1012, "Friend request already sent", HttpStatus.BAD_REQUEST),
+    CANNOT_SEND_REQUEST(1012, "Cannot send request", HttpStatus.BAD_REQUEST),
     VOUCHERNAME_EXISTED(1013, "Voucher name existed, please choose another one", HttpStatus.BAD_REQUEST),
+
 
 
     ;

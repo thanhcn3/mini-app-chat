@@ -4,6 +4,7 @@ package com.example.user_service.controller;
 import com.example.user_service.enity.FriendRequest;
 import com.example.user_service.model.ApiResponse;
 import com.example.user_service.model.User.Friend.RequestFriend.SendFriendResponse;
+import com.example.user_service.model.User.Friend.RequestFriend.TestResponse;
 import com.example.user_service.model.User.Friend.RequestFriend.UserRequest;
 import com.example.user_service.model.User.Friend.SendFriendRequest;
 import com.example.user_service.service.FriendService;
@@ -32,13 +33,13 @@ public class FriendController {
         return ApiResponse.success(result);
     }
 
-    @PostMapping(value = "/list-request-from-user",consumes = "application/json")
-    public ApiResponse<List<SendFriendResponse>> listRequestFromUser(@RequestBody UserRequest request) {
+    @PostMapping(value = "/friend-request-list-send",consumes = "application/json")
+    public ApiResponse<SendFriendResponse> listRequestFromUser(@RequestBody UserRequest request) {
         return ApiResponse.success(friendService.getIncomingRequests(request));
     }
 
- @PostMapping(value = "/list-request-to-user",consumes = "application/json")
-    public ApiResponse<List<SendFriendResponse>> listRequestToUser(@RequestBody UserRequest request) {
+ @PostMapping(value = "/friend-request-list",consumes = "application/json")
+    public ApiResponse<SendFriendResponse>listRequestToUser(@RequestBody UserRequest request) {
         return ApiResponse.success(friendService.getSentRequests(request));
     }
 

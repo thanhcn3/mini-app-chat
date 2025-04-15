@@ -3,7 +3,11 @@ package com.example.user_service.service.Impl;
 import com.example.user_service.enity.Friend;
 import com.example.user_service.enity.FriendRequest;
 import com.example.user_service.enity.User;
+import com.example.user_service.exception.AppException;
+import com.example.user_service.exception.ErrorCode;
+import com.example.user_service.model.User.Friend.RequestFriend.ListUserResponse;
 import com.example.user_service.model.User.Friend.RequestFriend.SendFriendResponse;
+import com.example.user_service.model.User.Friend.RequestFriend.TestResponse;
 import com.example.user_service.model.User.Friend.RequestFriend.UserRequest;
 import com.example.user_service.model.User.Friend.SendFriendRequest;
 import com.example.user_service.repository.FriendRepository;
@@ -38,9 +42,15 @@ public class FriendServiceImpl implements FriendService {
         User sender = userRepository.findById(request.getSenderId()).orElseThrow();
         User receiver = userRepository.findById(request.getReceiverId()).orElseThrow();
 
-        if (friendRequestRepository.findBySenderAndReceiver(sender, receiver).isPresent()) {
-            throw new RuntimeException("Friend request already sent.");
+        if (request.getSenderId().equals(request.getReceiverId())) {
+            throw new AppException(ErrorCode.CANNOT_SEND_REQUEST);
         }
+
+        Long existing = friendRequestRepository.countPendingBetween(sender.getId(), receiver.getId());
+        if (existing > 0) {
+            throw new AppException(ErrorCode.FRIEND_REQUEST_EXISTED);
+        }
+
         FriendRequest friendRequest = new FriendRequest();
         friendRequest.setSender(sender);
         friendRequest.setReceiver(receiver);
@@ -65,12 +75,18 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public List<SendFriendResponse> getIncomingRequests(UserRequest request) {
-        return friendRequestRepository.findByReceiverIdAndStatus(request.getId());
+    public SendFriendResponse getIncomingRequests(UserRequest request) {
+        List<ListUserResponse> list = friendRequestRepository.getFromRequests(request.getId());
+        Long count = friendRequestRepository.getTotalPendingCount(request.getId());
+        SendFriendResponse response = new SendFriendResponse(count, list);
+        return response;
     }
 
     @Override
-    public List<SendFriendResponse> getSentRequests(UserRequest request) {
-        return friendRequestRepository.findSentRequests(request.getId());
+    public SendFriendResponse getSentRequests(UserRequest request) {
+        List<ListUserResponse> list = friendRequestRepository.getSentRequests(request.getId());
+        Long count = friendRequestRepository.getTotalSendPendingCount(request.getId());
+        SendFriendResponse response = new SendFriendResponse(count, list);
+        return response;
     }
 }

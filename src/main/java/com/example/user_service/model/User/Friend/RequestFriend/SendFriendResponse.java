@@ -4,21 +4,19 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
 public class SendFriendResponse {
     private Long count;
-    private UUID id;
-    private UUID userId;
-    private String name;
-    private String avatar;
+    private List<ListUserResponse> list;
 
-    public SendFriendResponse(Long count, UUID id, UUID userId, String name, String avatar) {
+    public SendFriendResponse(Long count, List<ListUserResponse> list) {
         this.count = count;
-        this.id = id;
-        this.userId = userId;
-        this.name = name;
-        this.avatar = avatar;
+        this.list = list;
+    }
+
+    public SendFriendResponse() {
     }
 }

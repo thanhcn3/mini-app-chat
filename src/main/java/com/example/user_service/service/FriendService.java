@@ -2,6 +2,7 @@ package com.example.user_service.service;
 
 import com.example.user_service.enity.FriendRequest;
 import com.example.user_service.model.User.Friend.RequestFriend.SendFriendResponse;
+import com.example.user_service.model.User.Friend.RequestFriend.TestResponse;
 import com.example.user_service.model.User.Friend.RequestFriend.UserRequest;
 import com.example.user_service.model.User.Friend.SendFriendRequest;
 
@@ -14,7 +15,7 @@ public interface FriendService {
     String acceptRequest(UUID requestId);
 
     //List send to user pending
-    List<SendFriendResponse> getIncomingRequests(UserRequest request);
+    SendFriendResponse getIncomingRequests(UserRequest request);
     //List send from user pending
-    List<SendFriendResponse> getSentRequests(UserRequest request);
+    SendFriendResponse getSentRequests(UserRequest request);
 }
