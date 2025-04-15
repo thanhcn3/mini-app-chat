@@ -1,8 +1,10 @@
 package com.example.user_service.service;
 
+import com.example.user_service.dto.User.Friend.RequestFriend.ListUserResponse;
 import com.example.user_service.dto.User.Friend.RequestFriend.SendFriendResponse;
 import com.example.user_service.dto.User.Friend.SendFriendRequest;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface FriendService {
@@ -14,4 +16,6 @@ public interface FriendService {
     SendFriendResponse getIncomingRequests();
     //List send from user pending
     SendFriendResponse getSentRequests();
+    //List my friends
+    List<ListUserResponse> getFriends();
 }

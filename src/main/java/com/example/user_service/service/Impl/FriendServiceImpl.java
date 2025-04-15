@@ -1,5 +1,7 @@
 package com.example.user_service.service.Impl;
 
+import com.example.user_service.domain.time.TimeService;
+import com.example.user_service.domain.user.UserDomainService;
 import com.example.user_service.enity.Friend;
 import com.example.user_service.enity.FriendRequest;
 import com.example.user_service.enity.User;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -32,7 +35,9 @@ public class FriendServiceImpl implements FriendService {
      UserRepository userRepository;
      FriendRequestRepository friendRequestRepository;
      FriendRepository friendRepository;
-    private final AuthService authService;
+     AuthService authService;
+     TimeService timeService;
+     UserDomainService userDomainService;
 
     @Override
     public String sendFriendRequest(SendFriendRequest request) {
@@ -61,14 +66,30 @@ public class FriendServiceImpl implements FriendService {
     @Transactional
     @Override
     public String acceptRequest(UUID requestId) {
+
+        Optional<FriendRequest> friendrequest = Optional.ofNullable(friendRequestRepository.findById(requestId).orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_EXISTED)));
+        UUID senderId = friendrequest.get().getSender().getId();
+        UUID receiverId = friendrequest.get().getReceiver().getId();
+
+        if (userDomainService.areFriends(senderId, receiverId)) {
+            throw new AppException(ErrorCode.THEY_ARE_FRIENDS);
+        }
+
         FriendRequest request = friendRequestRepository.findById(requestId)
                 .orElseThrow(() -> new RuntimeException("Request not found"));
 
+        if (!request.getStatus().equals("PENDING")) {
+            throw new RuntimeException("Request is not pending");
+        }
+
+
         request.setStatus("ACCEPTED");
         friendRequestRepository.save(request);
+        Timestamp timestamp = timeService.getCurrentTimestamp();
 
-        friendRepository.save(new Friend(request.getSender(), request.getReceiver()));
-        friendRepository.save(new Friend(request.getReceiver(), request.getSender()));
+        //Luu 2 chieu
+        friendRepository.save(new Friend(request.getSender(), request.getReceiver(), timestamp));
+        friendRepository.save(new Friend(request.getReceiver(), request.getSender(), timestamp));
         return "Request accepted!";
     }
 
@@ -88,5 +109,12 @@ public class FriendServiceImpl implements FriendService {
         Long count = friendRequestRepository.getTotalSendPendingCount(userId);
         SendFriendResponse response = new SendFriendResponse(count, list);
         return response;
+    }
+
+    @Override
+    public List<ListUserResponse> getFriends() {
+        UUID userId = UUID.fromString(authService.getUserId());
+        List<ListUserResponse> list = friendRepository.getFriends(userId);
+        return list;
     }
 }

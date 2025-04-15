@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
@@ -25,6 +25,9 @@ public class Friend {
     private User friend;
     private Timestamp createdAt;
 
-    public Friend(User sender, User receiver) {
+    public Friend(User sender, User receiver, java.sql.Timestamp timestamp) {
+        this.user = sender;
+        this.friend = receiver;
+        this.createdAt = timestamp;
     }
 }

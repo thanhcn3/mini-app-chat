@@ -20,6 +20,8 @@ public enum ErrorCode {
     PASS_NOT_EXISTED(1012, "Password not existed", HttpStatus.BAD_REQUEST),
     FRIEND_REQUEST_EXISTED(1012, "Friend request already sent", HttpStatus.BAD_REQUEST),
     CANNOT_SEND_REQUEST(1012, "Cannot send request", HttpStatus.BAD_REQUEST),
+    REQUEST_NOT_EXISTED(1012, "Request not existed", HttpStatus.BAD_REQUEST),
+    THEY_ARE_FRIENDS(1012, "They are friend", HttpStatus.BAD_REQUEST),
     VOUCHERNAME_EXISTED(1013, "Voucher name existed, please choose another one", HttpStatus.BAD_REQUEST),
 
 

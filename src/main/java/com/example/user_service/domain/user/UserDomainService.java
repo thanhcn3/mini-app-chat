@@ -5,12 +5,15 @@ import com.example.user_service.dto.User.Register.RegisterRequest;
 import com.example.user_service.enity.User;
 import com.example.user_service.exception.AppException;
 import com.example.user_service.exception.ErrorCode;
+import com.example.user_service.repository.FriendRepository;
 import com.example.user_service.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +22,7 @@ public class UserDomainService {
 
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
+    FriendRepository friendRepository;
 
 
     public User validateUser(LoginRequest request) {
@@ -54,5 +58,10 @@ public class UserDomainService {
         user.setRole("USER");
         user.setStatus("ACTIVE");
         return user;
+    }
+
+    public boolean areFriends(UUID userId1, UUID userId2) {
+        return friendRepository.existsByUserId1AndUserId2(userId1, userId2)
+                || friendRepository.existsByUserId1AndUserId2(userId2, userId1);
     }
 }
