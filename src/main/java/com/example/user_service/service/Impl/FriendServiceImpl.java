@@ -1,7 +1,9 @@
 package com.example.user_service.service.Impl;
 
+import com.example.user_service.Mapper.User.ProfileMapper;
 import com.example.user_service.domain.time.TimeService;
 import com.example.user_service.domain.user.UserDomainService;
+import com.example.user_service.dto.User.Friend.ProfileResponse;
 import com.example.user_service.enity.Friend;
 import com.example.user_service.enity.FriendRequest;
 import com.example.user_service.enity.User;
@@ -38,6 +40,7 @@ public class FriendServiceImpl implements FriendService {
      AuthService authService;
      TimeService timeService;
      UserDomainService userDomainService;
+     ProfileMapper profileMapper;
 
     @Override
     public String sendFriendRequest(SendFriendRequest request) {
@@ -116,5 +119,12 @@ public class FriendServiceImpl implements FriendService {
         UUID userId = UUID.fromString(authService.getUserId());
         List<ListUserResponse> list = friendRepository.getFriends(userId);
         return list;
+    }
+
+    @Override
+    public ProfileResponse getProfile(UUID userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        ProfileResponse profileResponse = profileMapper.profileToProfileResponse(user);
+        return profileResponse;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.user_service.service;
 
+import com.example.user_service.dto.User.Friend.ProfileResponse;
 import com.example.user_service.dto.User.Friend.RequestFriend.ListUserResponse;
 import com.example.user_service.dto.User.Friend.RequestFriend.SendFriendResponse;
 import com.example.user_service.dto.User.Friend.SendFriendRequest;
@@ -18,4 +19,6 @@ public interface FriendService {
     SendFriendResponse getSentRequests();
     //List my friends
     List<ListUserResponse> getFriends();
+
+    ProfileResponse getProfile(UUID userId);
 }
