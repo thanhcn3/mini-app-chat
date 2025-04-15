@@ -11,6 +11,8 @@ import com.example.user_service.repository.UserRepository;
 import com.example.user_service.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +57,18 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void logout(String accessToken, String refreshToken) {
         jwtUtil.invalidateTokens(accessToken, refreshToken);
+    }
+
+    @Override
+    public String getUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        String userId = "";
+        userId = userRepository.findByUsername(username).getId().toString();
+        if(userId != null){
+            return userId;
+        }
+        throw new AppException(ErrorCode.USER_NOT_EXISTED);
     }
 
     private User validateUser(LoginRequest request) {

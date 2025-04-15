@@ -15,7 +15,7 @@ public interface FriendService {
     String acceptRequest(UUID requestId);
 
     //List send to user pending
-    SendFriendResponse getIncomingRequests(UserRequest request);
+    SendFriendResponse getIncomingRequests();
     //List send from user pending
-    SendFriendResponse getSentRequests(UserRequest request);
+    SendFriendResponse getSentRequests();
 }

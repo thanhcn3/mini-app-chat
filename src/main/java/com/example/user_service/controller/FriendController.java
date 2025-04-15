@@ -34,13 +34,13 @@ public class FriendController {
     }
 
     @PostMapping(value = "/friend-request-list-send",consumes = "application/json")
-    public ApiResponse<SendFriendResponse> listRequestFromUser(@RequestBody UserRequest request) {
-        return ApiResponse.success(friendService.getIncomingRequests(request));
+    public ApiResponse<SendFriendResponse> listRequestFromUser() {
+        return ApiResponse.success(friendService.getIncomingRequests());
     }
 
  @PostMapping(value = "/friend-request-list",consumes = "application/json")
-    public ApiResponse<SendFriendResponse>listRequestToUser(@RequestBody UserRequest request) {
-        return ApiResponse.success(friendService.getSentRequests(request));
+    public ApiResponse<SendFriendResponse>listRequestToUser() {
+        return ApiResponse.success(friendService.getSentRequests());
     }
 
 }

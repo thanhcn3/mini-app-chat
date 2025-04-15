@@ -9,6 +9,5 @@ import java.util.UUID;
 @Data
 @Setter
 public class SendFriendRequest {
-    private UUID senderId;
     private UUID receiverId;
 }

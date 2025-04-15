@@ -13,4 +13,6 @@ public interface AuthService {
     TokenResponse refreshToken(String refreshToken, String macAddress);
 
     void logout(String accessToken, String refreshToken);
+
+    String getUserId();
 }
