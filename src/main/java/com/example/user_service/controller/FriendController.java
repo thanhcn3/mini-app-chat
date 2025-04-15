@@ -34,7 +34,7 @@ public class FriendController {
         return ApiResponse.success(friendService.getIncomingRequests());
     }
 
- @PostMapping(value = "/friend-request-list",consumes = "application/json")
+    @PostMapping(value = "/friend-request-list",consumes = "application/json")
     public ApiResponse<SendFriendResponse>listRequestToUser() {
         return ApiResponse.success(friendService.getSentRequests());
     }
