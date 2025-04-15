@@ -1,4 +1,4 @@
-package com.example.user_service.model.User.Login;
+package com.example.user_service.dto.User.Login;
 
 import lombok.Data;
 

@@ -1,8 +1,8 @@
 package com.example.user_service.controller;
 
 import com.example.user_service.exception.GlobalExceptionHandler;
-import com.example.user_service.model.ApiResponse;
-import com.example.user_service.model.otp.OtpMessage;
+import com.example.user_service.dto.ApiResponse;
+import com.example.user_service.dto.otp.OtpMessage;
 import com.example.user_service.service.Impl.EmailService;
 import com.example.user_service.service.Impl.OtpKafka;
 import lombok.AccessLevel;

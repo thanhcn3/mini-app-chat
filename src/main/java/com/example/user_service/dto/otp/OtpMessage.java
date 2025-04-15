@@ -1,4 +1,4 @@
-package com.example.user_service.model.otp;
+package com.example.user_service.dto.otp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

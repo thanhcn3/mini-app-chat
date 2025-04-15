@@ -1,11 +1,8 @@
-package com.example.user_service.model.User.Friend.RequestFriend;
+package com.example.user_service.dto.User.Friend.RequestFriend;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
-import java.util.UUID;
 
 @Data
 public class SendFriendResponse {

@@ -1,4 +1,4 @@
-package com.example.user_service.model.User.Register;
+package com.example.user_service.dto.User.Register;
 
 
 import lombok.Data;

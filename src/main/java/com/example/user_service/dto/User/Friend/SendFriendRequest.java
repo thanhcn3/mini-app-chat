@@ -1,7 +1,6 @@
-package com.example.user_service.model.User.Friend;
+package com.example.user_service.dto.User.Friend;
 
 import lombok.Data;
-import lombok.NonNull;
 import lombok.Setter;
 
 import java.util.UUID;

@@ -5,30 +5,23 @@ import com.example.user_service.enity.FriendRequest;
 import com.example.user_service.enity.User;
 import com.example.user_service.exception.AppException;
 import com.example.user_service.exception.ErrorCode;
-import com.example.user_service.model.User.Friend.RequestFriend.ListUserResponse;
-import com.example.user_service.model.User.Friend.RequestFriend.SendFriendResponse;
-import com.example.user_service.model.User.Friend.RequestFriend.TestResponse;
-import com.example.user_service.model.User.Friend.RequestFriend.UserRequest;
-import com.example.user_service.model.User.Friend.SendFriendRequest;
+import com.example.user_service.dto.User.Friend.RequestFriend.ListUserResponse;
+import com.example.user_service.dto.User.Friend.RequestFriend.SendFriendResponse;
+import com.example.user_service.dto.User.Friend.SendFriendRequest;
 import com.example.user_service.repository.FriendRepository;
 import com.example.user_service.repository.FriendRequestRepository;
 import com.example.user_service.repository.UserRepository;
 import com.example.user_service.service.AuthService;
 import com.example.user_service.service.FriendService;
-import com.example.user_service.until.RequestStatus;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor

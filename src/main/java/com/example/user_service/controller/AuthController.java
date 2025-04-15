@@ -2,11 +2,10 @@ package com.example.user_service.controller;
 
 
 import com.example.user_service.config.security.JwtUtils;
-import com.example.user_service.exception.GlobalExceptionHandler;
-import com.example.user_service.model.ApiResponse;
-import com.example.user_service.model.User.Login.LoginRequest;
-import com.example.user_service.model.User.Register.RegisterRequest;
-import com.example.user_service.model.auth.TokenResponse;
+import com.example.user_service.dto.ApiResponse;
+import com.example.user_service.dto.User.Login.LoginRequest;
+import com.example.user_service.dto.User.Register.RegisterRequest;
+import com.example.user_service.dto.auth.TokenResponse;
 import com.example.user_service.service.AuthService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

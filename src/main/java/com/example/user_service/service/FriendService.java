@@ -1,19 +1,15 @@
 package com.example.user_service.service;
 
-import com.example.user_service.enity.FriendRequest;
-import com.example.user_service.model.User.Friend.RequestFriend.SendFriendResponse;
-import com.example.user_service.model.User.Friend.RequestFriend.TestResponse;
-import com.example.user_service.model.User.Friend.RequestFriend.UserRequest;
-import com.example.user_service.model.User.Friend.SendFriendRequest;
+import com.example.user_service.dto.User.Friend.RequestFriend.SendFriendResponse;
+import com.example.user_service.dto.User.Friend.SendFriendRequest;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface FriendService {
+    //Send request add friend
     String sendFriendRequest(SendFriendRequest request);
-
+    //Accept request add friend
     String acceptRequest(UUID requestId);
-
     //List send to user pending
     SendFriendResponse getIncomingRequests();
     //List send from user pending

@@ -4,7 +4,7 @@ package com.example.user_service.service.Impl;
 import com.example.user_service.enity.User;
 import com.example.user_service.exception.AppException;
 import com.example.user_service.exception.ErrorCode;
-import com.example.user_service.model.otp.OtpMessage;
+import com.example.user_service.dto.otp.OtpMessage;
 import com.example.user_service.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

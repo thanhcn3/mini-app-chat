@@ -1,16 +1,13 @@
 package com.example.user_service.exception;
 
 
-import com.example.user_service.model.ApiResponse;
+import com.example.user_service.dto.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.expression.AccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import java.util.Map;
-import java.util.Objects;
 
 @ControllerAdvice
 @Slf4j

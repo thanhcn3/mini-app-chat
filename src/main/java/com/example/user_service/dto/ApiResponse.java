@@ -1,8 +1,7 @@
-package com.example.user_service.model;
+package com.example.user_service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 

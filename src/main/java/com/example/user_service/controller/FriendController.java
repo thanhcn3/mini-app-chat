@@ -1,12 +1,9 @@
 package com.example.user_service.controller;
 
 
-import com.example.user_service.enity.FriendRequest;
-import com.example.user_service.model.ApiResponse;
-import com.example.user_service.model.User.Friend.RequestFriend.SendFriendResponse;
-import com.example.user_service.model.User.Friend.RequestFriend.TestResponse;
-import com.example.user_service.model.User.Friend.RequestFriend.UserRequest;
-import com.example.user_service.model.User.Friend.SendFriendRequest;
+import com.example.user_service.dto.ApiResponse;
+import com.example.user_service.dto.User.Friend.RequestFriend.SendFriendResponse;
+import com.example.user_service.dto.User.Friend.SendFriendRequest;
 import com.example.user_service.service.FriendService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)

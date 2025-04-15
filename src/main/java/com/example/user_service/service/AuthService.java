@@ -1,8 +1,8 @@
 package com.example.user_service.service;
 
-import com.example.user_service.model.User.Login.LoginRequest;
-import com.example.user_service.model.User.Register.RegisterRequest;
-import com.example.user_service.model.auth.TokenResponse;
+import com.example.user_service.dto.User.Login.LoginRequest;
+import com.example.user_service.dto.User.Register.RegisterRequest;
+import com.example.user_service.dto.auth.TokenResponse;
 
 public interface AuthService {
 

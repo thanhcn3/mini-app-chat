@@ -1,4 +1,4 @@
-package com.example.user_service.model.User.Friend.RequestFriend;
+package com.example.user_service.dto.User.Friend.RequestFriend;
 
 import lombok.Data;
 
